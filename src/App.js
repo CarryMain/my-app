@@ -1,7 +1,7 @@
-import {Component} from 'react'
+import React, {Component} from 'react'
 import './App.css';
 import styled from 'styled-components';
-
+import BootstrapTest from './BootstrapTest';
 
 const EmpItem = styled.div ` 
   padding: 20px;
@@ -78,9 +78,47 @@ const Wrapper = styled.div`
   margin: 80px auto 0 auto;
 `;
 
+const DynamicGreating = (props) => {
+  return ( 
+    <div className={'mb-3 p-3 border border-' + props.color}>
+        {/* {props.children} */}
+        {
+          React.Children.map(props.children, child => {
+              return React.cloneElement(child, {className: 'shadow p-3 m-3 border rounded'})
+          })
+        }
+    </div>
+  )
+}
+
+const HelloGreatings = () => {
+  return (
+  <div style={{'width': '600px', 'margin': '0 auto'}}>
+          <DynamicGreating color={'primary'}>
+            <h2>This wwesferwfeel was</h2>
+          </DynamicGreating>
+  </div>
+  )
+}
+
 function App() {
   return (
     <Wrapper>
+      <HelloGreatings/>
+      <BootstrapTest
+        left = {
+          <DynamicGreating color={'primary'}>
+            <h2>This weel was</h2>
+            <h2>Hello world!</h2>
+          </DynamicGreating>
+        }
+        right = {
+          <DynamicGreating color={'primary'}>
+          <h2>RIGHT</h2>
+          </DynamicGreating>
+        }
+      />
+      
       <WhoAmI name='John' surname="Smith" link="google.com"/>
       <WhoAmI name='Alex' surname="Turanov" link="mail.ru"/>
     </Wrapper>
