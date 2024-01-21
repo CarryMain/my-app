@@ -1,4 +1,4 @@
-import React, {Component, useRef} from 'react'
+import React, {Component, useRef, useState, useEffect} from 'react'
 import './App.css';
 // import styled from 'styled-components';
 // import BootstrapTest from './BootstrapTest';
@@ -218,43 +218,42 @@ import ReactDOM from 'react-dom';
 // }
 
 const Form = () => {
+
+  const [text, setText] = useState('')
+
   
-  
+  const myRef = useRef(1)
+  // const focusFirstTI = () => {
+  //   myRef.current.focus()
+  // }
+
+  useEffect(() => {
+    myRef.current = text 
+  })
+
   return(
     <Container>
-      <form onClick={this.handleClick} style={{'overflow': 'hidden', 'position': 'relative'}} className='w-50 border mt-5 p-3 m-auto'>
+      <form style={{'overflow': 'hidden', 'position': 'relative'}} className='w-50 border mt-5 p-3 m-auto'>
         <div className="mb-3">
           <label htmlFor="exampleFormControlInput1" className='form-label'>Email address</label>
-          <input  type="email" className='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
+          <input onChange={(e) => setText(e.target.value)}  type="email" className='form-control' id='exampleFormControlInput1' placeholder='name@example.com' />
         </div>
         <div className="mb-3">
           <label htmlFor="exampleFormControlTextarea1" className='form-label'>Example textarea</label>
-          <textarea className='form-control' id="exampleFormControlTextarea1" rows="3"></textarea>
+          <textarea value={myRef.current} className='form-control' id="exampleFormControlTextarea1" rows="3"></textarea>
         </div>
-        {
+        {/* {
           this.state.advOpen ? 
           <Portal>
             <Msg/>
           </Portal> : null
-        }
+        } */}
       </form>
     </Container>
     )
 }
 
-const Msg = () => {
-  return ( 
-    <div style={{'width': '500px', 'height': '150px', 'backgroundColor': 'red', 'position': 'absolute', 'right': '0', 'bottom': '0'}}>
-     Hello
-    </div>
-  )
-}
 
-const Portal = (props) => {
-  const node = document.createElement('div')
-  document.body.appendChild(node)
-  return ReactDOM.createPortal(props.children, node)
-}
 
 // class TextInput extends Component {
 
