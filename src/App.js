@@ -1,4 +1,4 @@
-import React, {Component, useRef, useState, useEffect} from 'react'
+import React, {Component, useRef, useState, useEffect, memo} from 'react'
 import './App.css';
 // import styled from 'styled-components';
 // import BootstrapTest from './BootstrapTest';
@@ -217,27 +217,27 @@ import ReactDOM from 'react-dom';
 //   }
 // }
 
-function useInputWithValidate(initialValue) {
-  const [value, setValue] = useState(initialValue)
+// function useInputWithValidate(initialValue) {
+//   const [value, setValue] = useState(initialValue)
 
-  const onChange = event => {
-    setValue(event.target.value)
-  }
+//   const onChange = event => {
+//     setValue(event.target.value)
+//   }
 
-  const validateInput = () => {
-    return value.search(/\d/) >= 0
-  }
+//   const validateInput = () => {
+//     return value.search(/\d/) >= 0
+//   }
   
-  return {value, onChange, validateInput}
-}
+//   return {value, onChange, validateInput}
+// }
 
-const Form = () => {
+// const Form = () => {
 
-  const input = useInputWithValidate('')
-  const textArea = useInputWithValidate('')
+//   const input = useInputWithValidate('')
+//   const textArea = useInputWithValidate('')
   
 
-  const color = input.validateInput() ? 'text-danger' : null
+//   const color = input.validateInput() ? 'text-danger' : null
   
   // const myRef = useRef(1)
   // // const focusFirstTI = () => {
@@ -248,28 +248,28 @@ const Form = () => {
   //   myRef.current = text 
   // })
 
-  return(
-    <Container>
-      <form style={{'overflow': 'hidden', 'position': 'relative'}} className='w-50 border mt-5 p-3 m-auto'>
-        <div className="mb-3">
-          <input value={`${input.value} / ${textArea.value}`} type="text" className="form-control" readOnly/>
-          <label htmlFor="exampleFormControlInput1" className='form-label mt-3'>Email address</label>
-          <input onChange={input.onChange}  type="email" className={`form-control ${color}`} id='exampleFormControlInput1' placeholder='name@example.com' value={input.value} />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="exampleFormControlTextarea1" className='form-label'>Example textarea</label>
-          <textarea value={textArea.value} className='form-control' id="exampleFormControlTextarea1" rows="3" onChange={textArea.onChange}></textarea>
-        </div>
-        {/* {
-          this.state.advOpen ? 
-          <Portal>
-            <Msg/>
-          </Portal> : null
-        } */}
-      </form>
-    </Container>
-    )
-}
+//   return(
+//     <Container>
+//       <form style={{'overflow': 'hidden', 'position': 'relative'}} className='w-50 border mt-5 p-3 m-auto'>
+//         <div className="mb-3">
+//           <input value={`${input.value} / ${textArea.value}`} type="text" className="form-control" readOnly/>
+//           <label htmlFor="exampleFormControlInput1" className='form-label mt-3'>Email address</label>
+//           <input onChange={input.onChange}  type="email" className={`form-control ${color}`} id='exampleFormControlInput1' placeholder='name@example.com' value={input.value} />
+//         </div>
+//         <div className="mb-3">
+//           <label htmlFor="exampleFormControlTextarea1" className='form-label'>Example textarea</label>
+//           <textarea value={textArea.value} className='form-control' id="exampleFormControlTextarea1" rows="3" onChange={textArea.onChange}></textarea>
+//         </div>
+//         {/* {
+//           this.state.advOpen ? 
+//           <Portal>
+//             <Msg/>
+//           </Portal> : null
+//         } */}
+//       </form>
+//     </Container>
+//     )
+// }
 
 
 
@@ -286,9 +286,34 @@ const Form = () => {
 //   }
 // }
 
-function App() {
+
+const Form = memo((props) => {
   return ( 
-    <Form/>
+      <Container>
+        <form className='w-50 border mt-5 p-3 m-auto'>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlInput1" className='form-label mt-3'>Email address</label>
+            <input value={props.mail}  type="email" className={`form-control`} id='exampleFormControlInput1' placeholder='name@example.com'/>
+          </div>
+          <div className="mb-3">
+            <label htmlFor="exampleFormControlTextarea1" className='form-label'>Example textarea</label>
+            <textarea value={props.text} className='form-control' id="exampleFormControlTextarea1" rows="3"></textarea>
+          </div>
+        </form>
+      </Container>
+  )
+})
+
+function App() {
+  const [data, setData] = useState({
+    mail: 'name@example.com',
+    text: 'some text',
+  })
+  return ( 
+    <>
+      <Form mail={data.mail} text={data.text}/>
+      <button onClick={() => setData({ mail: 'second@example.com', text: 'another text'})}>Click me</button>
+    </>
   )
 }
 
